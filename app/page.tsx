@@ -1,6 +1,6 @@
 import { getFrameMetadata } from '@coinbase/onchainkit';
 import type { Metadata } from 'next';
-import { NEXT_PUBLIC_URL } from './config';
+import {NEXT_PUBLIC_URL, ZORA_COLLECTION_ADDRESS, ZORA_TOKEN_ID} from './config';
 import { getCollection } from './lib/collection';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -9,11 +9,13 @@ export async function generateMetadata(): Promise<Metadata> {
   const frameMetadata = getFrameMetadata({
     buttons: [
       {
-        label: 'Claim your Surfy card!',
+        label: 'Mint your Surfy card!',
+        action: 'mint',
+        target: `eip155:8453:${ZORA_COLLECTION_ADDRESS}:${ZORA_TOKEN_ID}`,
       },
     ],
     image: `${NEXT_PUBLIC_URL}/api/images/start`,
-    post_url: `${NEXT_PUBLIC_URL}/api/start`,
+    // post_url: `${NEXT_PUBLIC_URL}/api/start`,
   });
 
   return {

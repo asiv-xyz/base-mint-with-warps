@@ -15,8 +15,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   });
 
   if (message?.button === 1 && isValid && allowedOrigin(message)) {
-    // const isActive = message.raw.action.interactor.active_status === 'active';
-    const isActive = true;
+    const isActive = message.raw.action.interactor.active_status === 'active';
 
     if (isActive) {
       const fid = message.interactor.fid;
