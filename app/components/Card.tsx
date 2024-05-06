@@ -14,22 +14,21 @@ export function Card({ message, image }: { message: string; image?: string }) {
         ...CARD_DIMENSIONS,
       }}
     >
-      <img style={{ width: '100%', height: '100%', marginTop: '-212px' }} src={imageSrc} />
+      <link href='https://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet' />
+      <img style={{ width: '100%', height: '100%' }} src={imageSrc} />
       {message && (
         <div
           style={{
             display: 'flex',
             position: 'absolute',
-            bottom: '0',
+            bottom: '100',
             width: '100%',
-            background: 'rgb(64, 27, 114)',
             color: 'white',
-            fontSize: '24px',
-            paddingTop: '58px',
-            paddingBottom: '108px',
+            fontSize: '48px',
+            fontWeight: 'bold'
           }}
         >
-          <p style={{ margin: '0 auto' }}>{message}</p>
+          <p style={{ fontFamily: 'Orbitron', margin: '0 auto', color: 'white' }}>{message}</p>
         </div>
       )}
     </div>
