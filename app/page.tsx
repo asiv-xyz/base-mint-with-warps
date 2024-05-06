@@ -9,7 +9,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const frameMetadata = getFrameMetadata({
     buttons: [
       {
-        label: 'Check eligibility',
+        label: 'Claim your Surfy card!',
       },
     ],
     image: `${NEXT_PUBLIC_URL}/api/images/start`,
