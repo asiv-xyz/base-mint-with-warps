@@ -2,36 +2,63 @@ import { getFrameMetadata } from '@coinbase/onchainkit';
 import type { Metadata } from 'next';
 import {NEXT_PUBLIC_URL, ZORA_COLLECTION_ADDRESS, ZORA_TOKEN_ID} from './config';
 import { getCollection } from './lib/collection';
+import {frames} from "./frames/frames";
+import {Button, fetchMetadata} from "frames.js/next";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const { name } = await getCollection();
+// export async function generateMetadata(): Promise<Metadata> {
+//   const { name } = await getCollection();
+//
+//   const frameMetadata = getFrameMetadata({
+//     buttons: [
+//       {
+//         label: 'Mint',
+//         action: 'mint',
+//         target: `eip155:8453:${ZORA_COLLECTION_ADDRESS}:${ZORA_TOKEN_ID}`,
+//       },
+//       {
+//         label: 'About SURFY',
+//         action: 'link',
+//         target: 'https://asiv-web.vercel.app'
+//       }
+//     ],
+//     image: `${NEXT_PUBLIC_URL}/api/images/start`,
+//     post_url: `https://asiv-web.vercel.app`,
+//   });
+//
+//   return {
+//     title: name,
+//     description: "Check if you're eligible for a free mint",
+//     openGraph: {
+//       title: name,
+//       description: "Check if you're eligible for a free mint",
+//       images: [`${NEXT_PUBLIC_URL}/api/images/start`],
+//     },
+//     other: {
+//       ...frameMetadata,
+//       'fc:frame:image:aspect_ratio': '1:1',
+//     },
+//   };
+// }
 
-  const frameMetadata = getFrameMetadata({
-    buttons: [
-      {
-        label: 'Mint your Surfy card!',
-        action: 'mint',
-        target: `eip155:8453:${ZORA_COLLECTION_ADDRESS}:${ZORA_TOKEN_ID}`,
-      },
-    ],
-    image: `${NEXT_PUBLIC_URL}/api/images/start`,
-    post_url: `https://asiv-web.vercel.app`,
-  });
-
+export async function generateMetadata() {
   return {
-    title: name,
-    description: "Check if you're eligible for a free mint",
-    openGraph: {
-      title: name,
-      description: "Check if you're eligible for a free mint",
-      images: [`${NEXT_PUBLIC_URL}/api/images/start`],
-    },
+    title: "My Page",
+    // ...
     other: {
-      ...frameMetadata,
-      'fc:frame:image:aspect_ratio': '1:1',
+      // ...
+      ...(await fetchMetadata(
+          // provide a full URL to your /frames endpoint
+          new URL(
+              "/frames/intro",
+              process.env.VERCEL_URL
+                  ? `https://{process.env.VERCEL_URL}`
+                  : "http://localhost:3000"
+          )
+      )),
     },
   };
 }
+
 
 export default async function Page() {
   const { name, image, address, tokenId } = await getCollection();
