@@ -6,6 +6,7 @@ import {base} from "viem/chains";
 import {abi} from "../../abi/surfyCard";
 import React from "react";
 import Image from "next/image";
+import {createImagesWorker} from "frames.js/middleware/images-worker/next";
 
 const isUserHasNft = async (addresses: string[] | undefined) => {
     if (addresses == null) {
@@ -62,20 +63,10 @@ const handleRequest = frames(async (ctx) => {
             image: (
                 <div style={{ display: "flex" }}>
                     <div style={{ display: "flex" }}>
-                        <img style={{ width: '600px', height: '400px', zIndex: 30 }} src={cardAsset} alt={cardAsset} />
-                        <img style={{ display: "flex",  position: "absolute", top: '100', left: '100', width: '100px', height: '100px', zIndex: 50 }} src={ctx.message?.requesterUserData?.profileImage} />
+                        <img style={{ width: '1050px', height: '740px', zIndex: 30 }} src={cardAsset} alt={cardAsset} />
+                        <img style={{ display: "flex",  position: "absolute", top: '382', left: '160', width: '102px', height: '102px', zIndex: 50, borderRadius: "10px" }} src={ctx.message?.requesterUserData?.profileImage} />
                     </div>
                 </div>
-                // <div style="absolute top-0 left-0 z-30">
-                //     <Image src={cardAsset} alt={cardAsset} width={525} height={370} />
-                // </div>
-                // <div style={{ display: "flex", flexDirection: "column" }}>
-                //     <span>username: {ctx.message?.requesterUserData?.username}</span>
-                //     <span>{ctx.message?.requesterVerifiedAddresses[0]}</span>
-                //     <span>{ctx.message?.requesterVerifiedAddresses[1]}</span>
-                //     <span>{ctx.message?.requesterUserData?.profileImage}</span>
-                //     <span>You have a NFT</span>
-                // </div>
             ),
             buttons: [
                 <Button action="mint" target={`eip155:8453:${ZORA_COLLECTION_ADDRESS}:${ZORA_TOKEN_ID}`}>
@@ -106,5 +97,9 @@ const handleRequest = frames(async (ctx) => {
         };
 });
 
-export const GET = handleRequest;
+const imagesRoute = createImagesWorker({
+    secret: "SOME_SECRET_VALUE",
+});
+
+export const GET = imagesRoute();
 export const POST = handleRequest;
