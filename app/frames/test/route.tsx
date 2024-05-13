@@ -14,6 +14,7 @@ const handleRequest = frames(async (ctx) => {
                 test test
                 { ctx.message?.requesterUserData?.username }
                 { ctx.message?.requesterUserData?.profileImage }
+                { ctx.message?.requesterVerifiedAddresses }
             </div>
         ),
         imageOptions: {

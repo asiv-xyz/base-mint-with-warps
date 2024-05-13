@@ -10,7 +10,7 @@ const handleRequest = frames(async (ctx) => {
             aspectRatio: "1:1"
         },
         buttons: [
-            <Button action="post" target={{ pathname: `/mint}` }}>
+            <Button action="post" target={`/mint`} >
                 Your card
             </Button>,
             <Button action="link" target="https://asiv-web.vercel.app">
