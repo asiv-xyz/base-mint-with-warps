@@ -169,5 +169,5 @@ const handleRequest = frames(async (ctx) => {
 const imagesRoute = createImagesWorker();
 
 
-export const GET = imagesRoute();
+export const GET = handleRequest;
 export const POST = handleRequest;
