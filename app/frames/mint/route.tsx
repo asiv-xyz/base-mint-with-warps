@@ -5,8 +5,8 @@ import {createPublicClient, http} from "viem";
 import {base} from "viem/chains";
 import {abi} from "../../abi/surfyCard";
 import React from "react";
-import Image from "next/image";
 import {createImagesWorker} from "frames.js/middleware/images-worker/next";
+import {getTokenUrl} from "frames.js";
 
 const isUserHasNft = async (addresses: string[] | undefined) => {
     if (addresses == null) {
@@ -82,8 +82,8 @@ const handleRequest = frames(async (ctx) => {
                 aspectRatio: "1:1"
             },
             buttons: [
-                <Button action="mint" target={`eip155:8453:${ZORA_COLLECTION_ADDRESS}:${ZORA_TOKEN_ID}`}>
-                    Mint
+                <Button action="link" target={`https://warpcast.com/~/compose?embeds[]=${NEXT_PUBLIC_URL}/frames/mint&text=Minted my /surfy`} >
+                    Share
                 </Button>,
                 <Button action="link" target="https://asiv-web.vercel.app">
                     About SURFY
@@ -92,22 +92,22 @@ const handleRequest = frames(async (ctx) => {
         };
     }
 
-        return {
-            image: `${NEXT_PUBLIC_URL}/mint_your_surfy.png`,
-            imageOptions: {
-                width: 1080,
-                height: 1080,
-                aspectRatio: "1:1"
-            },
-            buttons: [
-                <Button action="mint" target={`eip155:8453:${ZORA_COLLECTION_ADDRESS}:${ZORA_TOKEN_ID}`}>
-                    Mint
-                </Button>,
-                <Button action="link" target="https://asiv-web.vercel.app">
-                    About SURFY
-                </Button>,
-            ],
-        };
+    return {
+        image: `${NEXT_PUBLIC_URL}/mint_your_surfy.png`,
+        imageOptions: {
+            width: 1080,
+            height: 1080,
+            aspectRatio: "1:1"
+        },
+        buttons: [
+            <Button action="mint" target={getTokenUrl({ address: "0x313714Fc7BfFFcBc5d1F60a6D7E3A3cCBEf5cc36", chain: base, tokenId: "1"})} >
+                Mint
+            </Button>,
+            <Button action="link" target="https://asiv-web.vercel.app">
+                About SURFY
+            </Button>,
+        ],
+    };
 });
 
 const imagesRoute = createImagesWorker({
