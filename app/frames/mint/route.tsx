@@ -9,11 +9,10 @@ import {isUserHasNft} from "../utils/nft";
 import {NeynarAPIClient} from "@neynar/nodejs-sdk";
 
 const handleRequest = frames(async (ctx) => {
-    const client = new NeynarAPIClient('C0BA4DAC-4197-4CCF-922F-8142E550E356');
-    const user = await client.fetchBulkUsers([416206])
-    console.log('user', user)
-    console.log('va', user.users[0].verified_addresses.eth_addresses)
-    console.log('path', ctx.searchParams)
+    // const user = await client.fetchBulkUsers([416206])
+    // console.log('user', user)
+    // console.log('va', user.users[0].verified_addresses.eth_addresses)
+    // console.log('path', ctx.searchParams)
     const fid = ctx.searchParams['fid']
     if (fid == null) {
         // using farcaster sdk
@@ -62,7 +61,7 @@ const handleRequest = frames(async (ctx) => {
                     aspectRatio: "1:1"
                 },
                 buttons: [
-                    <Button action="link" target={`https://warpcast.com/~/compose?embeds[]=${NEXT_PUBLIC_URL}/frames/mint&text=Minted my /surfy`} >
+                    <Button action="link" target={`https://warpcast.com/~/compose?embeds[]=${NEXT_PUBLIC_URL}/frames/mint?fid=${ctx.message?.requesterFid}&text=Minted my /surfy`} >
                         Share
                     </Button>,
                     <Button action="link" target="https://asiv-web.vercel.app">
@@ -89,6 +88,8 @@ const handleRequest = frames(async (ctx) => {
             ],
         };
     } else {
+        const client = new NeynarAPIClient('C0BA4DAC-4197-4CCF-922F-8142E550E356');
+        console.log('fid', fid)
         const addresses = await client.fetchBulkUsers([parseInt(fid)])
         const ethAddresses = addresses.users[0].verified_addresses.eth_addresses
         const hasNft = await isUserHasNft(ethAddresses)
@@ -137,7 +138,7 @@ const handleRequest = frames(async (ctx) => {
                     aspectRatio: "1:1"
                 },
                 buttons: [
-                    <Button action="link" target={`https://warpcast.com/~/compose?embeds[]=${NEXT_PUBLIC_URL}/frames/mint&text=Minted my /surfy`} >
+                    <Button action="link" target={`https://warpcast.com/~/compose?embeds[]=${NEXT_PUBLIC_URL}/frames/mint?fid=${fid}&text=Minted my /surfy`} >
                         Share
                     </Button>,
                     <Button action="link" target="https://asiv-web.vercel.app">
