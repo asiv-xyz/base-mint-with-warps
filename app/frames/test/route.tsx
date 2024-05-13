@@ -11,6 +11,7 @@ const handleRequest = frames(async (ctx) => {
     return {
         image: (
             <div style={{ display: "flex", flexDirection: "column", width: '1080px', height: '1080px' }}>
+                test test
                 { ctx.message?.requesterUserData?.username }
                 { ctx.message?.requesterUserData?.profileImage }
             </div>
@@ -35,5 +36,5 @@ const imagesRoute = createImagesWorker({
     secret: "SOME_SECRET_VALUE",
 });
 
-export const GET = imagesRoute();
+export const GET = handleRequest;
 export const POST = handleRequest;
