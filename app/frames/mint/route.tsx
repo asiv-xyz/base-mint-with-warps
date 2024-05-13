@@ -62,7 +62,7 @@ const handleRequest = frames(async (ctx) => {
             image: (
                 <div style={{ display: "flex" }}>
                     <div style={{ display: "flex" }}>
-                        <img style={{ width: '700px', height: '400px', zIndex: 30 }} src={cardAsset} alt={cardAsset} />
+                        <img style={{ width: '600px', height: '400px', zIndex: 30 }} src={cardAsset} alt={cardAsset} />
                         <img style={{ display: "flex",  position: "absolute", top: '100', left: '100', width: '100px', height: '100px', zIndex: 50 }} src={ctx.message?.requesterUserData?.profileImage} />
                     </div>
                 </div>
