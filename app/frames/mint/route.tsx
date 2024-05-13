@@ -7,13 +7,11 @@ import {createImagesWorker} from "frames.js/middleware/images-worker/next";
 import {getTokenUrl} from "frames.js";
 import {isUserHasNft} from "../utils/nft";
 import {NeynarAPIClient} from "@neynar/nodejs-sdk";
+import {ImageResponse} from "@vercel/og";
 
 const handleRequest = frames(async (ctx) => {
-    // const user = await client.fetchBulkUsers([416206])
-    // console.log('user', user)
-    // console.log('va', user.users[0].verified_addresses.eth_addresses)
-    // console.log('path', ctx.searchParams)
-    const fid = ctx.searchParams['fid']
+    const fid = ctx.searchParams["fid"]
+    console.log('fid', fid)
     if (fid == null) {
         // using farcaster sdk
         const hasNft = await isUserHasNft(ctx.message?.requesterVerifiedAddresses)
@@ -88,8 +86,73 @@ const handleRequest = frames(async (ctx) => {
             ],
         };
     } else {
+        const client = new NeynarAPIClient('C0BA4DAC-4197-4CCF-922F-8142E550E356');
+        console.log('fid', fid)
+        const addresses = await client.fetchBulkUsers([parseInt(fid)])
+        const ethAddresses = addresses.users[0].verified_addresses.eth_addresses
+        const hasNft = await isUserHasNft(ethAddresses)
+
+        if (hasNft) {
+            const last = parseInt(hasNft.at(5) || '0') % 5
+            let cardAsset
+            let textColor
+            switch (last) {
+                case 0:
+                    cardAsset = `${NEXT_PUBLIC_URL}/surfy_card_1.png`
+                    textColor = 'white'
+                    break
+                case 1:
+                    cardAsset = `${NEXT_PUBLIC_URL}/surfy_card_2.png`
+                    textColor = 'white'
+                    break
+                case 2:
+                    cardAsset = `${NEXT_PUBLIC_URL}/surfy_card_3.png`
+                    textColor = 'white'
+                    break
+                case 3:
+                    cardAsset = `${NEXT_PUBLIC_URL}/surfy_card_4.png`
+                    textColor = 'black'
+                    break
+                default:
+                    cardAsset = `${NEXT_PUBLIC_URL}/surfy_card_1.png`
+            }
+            console.log('cardAsset', cardAsset)
+            console.log('image', ctx.message?.requesterUserData?.profileImage)
+            return {
+                image: (
+                    <div style={{ display: "flex", width: '1080px', height: '1080px' }}>
+                        <div style={{ display: "flex", width: '1080px', height: '1080px' }}>
+                            <img style={{ width: '1080px', height: '1080px', zIndex: 30 }} src={cardAsset} alt={cardAsset} />
+                            <div style={{ top: '554', left: '173', position: "absolute", display: "flex", flexDirection: "column", zIndex: 50 }}>
+                                <img style={{ display: "flex", width: '100px', height: '100px', borderRadius: "15px" }} src={ctx.message?.requesterUserData?.profileImage} />
+                                <p style={{ color: textColor, marginTop: "10px" }}>{ctx.message?.requesterUserData?.displayName}</p>
+                            </div>
+                        </div>
+                    </div>
+                ),
+                imageOptions: {
+                    width: 1080,
+                    height: 1080,
+                    aspectRatio: "1:1"
+                },
+                buttons: [
+                    <Button action="link" target={`https://warpcast.com/~/compose?embeds[]=${NEXT_PUBLIC_URL}/frames/mint?fid=${fid}&text=Minted my /surfy`} >
+                        Share
+                    </Button>,
+                    <Button action="link" target="https://asiv-web.vercel.app">
+                        About SURFY
+                    </Button>,
+                ],
+            };
+        }
+
         return {
-            image: <span>You have fid</span>,
+            image: `${NEXT_PUBLIC_URL}/mint_your_surfy.png`,
+            imageOptions: {
+                width: 1080,
+                height: 1080,
+                aspectRatio: "1:1"
+            },
             buttons: [
                 <Button action="mint" target={getTokenUrl({ address: "0x313714Fc7BfFFcBc5d1F60a6D7E3A3cCBEf5cc36", chain: base, tokenId: "1"})} >
                     Mint
@@ -98,90 +161,13 @@ const handleRequest = frames(async (ctx) => {
                     About SURFY
                 </Button>,
             ],
-        }
-        // const client = new NeynarAPIClient('C0BA4DAC-4197-4CCF-922F-8142E550E356');
-        // console.log('fid', fid)
-        // const addresses = await client.fetchBulkUsers([parseInt(fid)])
-        // const ethAddresses = addresses.users[0].verified_addresses.eth_addresses
-        // const hasNft = await isUserHasNft(ethAddresses)
-        //
-        // if (hasNft) {
-        //     const last = parseInt(hasNft.at(5) || '0') % 5
-        //     let cardAsset
-        //     let textColor
-        //     switch (last) {
-        //         case 0:
-        //             cardAsset = `${NEXT_PUBLIC_URL}/surfy_card_1.png`
-        //             textColor = 'white'
-        //             break
-        //         case 1:
-        //             cardAsset = `${NEXT_PUBLIC_URL}/surfy_card_2.png`
-        //             textColor = 'white'
-        //             break
-        //         case 2:
-        //             cardAsset = `${NEXT_PUBLIC_URL}/surfy_card_3.png`
-        //             textColor = 'white'
-        //             break
-        //         case 3:
-        //             cardAsset = `${NEXT_PUBLIC_URL}/surfy_card_4.png`
-        //             textColor = 'black'
-        //             break
-        //         default:
-        //             cardAsset = `${NEXT_PUBLIC_URL}/surfy_card_1.png`
-        //     }
-        //     console.log('cardAsset', cardAsset)
-        //     console.log('image', ctx.message?.requesterUserData?.profileImage)
-        //     return {
-        //         image: (
-        //             <div style={{ display: "flex", width: '1080px', height: '1080px' }}>
-        //                 <div style={{ display: "flex", width: '1080px', height: '1080px' }}>
-        //                     <img style={{ width: '1080px', height: '1080px', zIndex: 30 }} src={cardAsset} alt={cardAsset} />
-        //                     <div style={{ top: '554', left: '173', position: "absolute", display: "flex", flexDirection: "column", zIndex: 50 }}>
-        //                         <img style={{ display: "flex", width: '100px', height: '100px', borderRadius: "15px" }} src={ctx.message?.requesterUserData?.profileImage} />
-        //                         <p style={{ color: textColor, marginTop: "10px" }}>{ctx.message?.requesterUserData?.displayName}</p>
-        //                     </div>
-        //                 </div>
-        //             </div>
-        //         ),
-        //         imageOptions: {
-        //             width: 1080,
-        //             height: 1080,
-        //             aspectRatio: "1:1"
-        //         },
-        //         buttons: [
-        //             <Button action="link" target={`https://warpcast.com/~/compose?embeds[]=${NEXT_PUBLIC_URL}/frames/mint?fid=${fid}&text=Minted my /surfy`} >
-        //                 Share
-        //             </Button>,
-        //             <Button action="link" target="https://asiv-web.vercel.app">
-        //                 About SURFY
-        //             </Button>,
-        //         ],
-        //     };
-        // }
-        //
-        // return {
-        //     image: `${NEXT_PUBLIC_URL}/mint_your_surfy.png`,
-        //     imageOptions: {
-        //         width: 1080,
-        //         height: 1080,
-        //         aspectRatio: "1:1"
-        //     },
-        //     buttons: [
-        //         <Button action="mint" target={getTokenUrl({ address: "0x313714Fc7BfFFcBc5d1F60a6D7E3A3cCBEf5cc36", chain: base, tokenId: "1"})} >
-        //             Mint
-        //         </Button>,
-        //         <Button action="link" target="https://asiv-web.vercel.app">
-        //             About SURFY
-        //         </Button>,
-        //     ],
-        // };
+        };
     }
 
 });
 
-const imagesRoute = createImagesWorker({
-    secret: "SOME_SECRET_VALUE",
-});
+const imagesRoute = createImagesWorker();
+
 
 export const GET = imagesRoute();
 export const POST = handleRequest;
