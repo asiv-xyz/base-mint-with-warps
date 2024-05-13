@@ -1,40 +1,11 @@
 import { Button } from "frames.js/next";
 import { frames } from "../frames";
-import {NEXT_PUBLIC_URL, TOKEN_IMAGE, ZORA_COLLECTION_ADDRESS, ZORA_TOKEN_ID} from "../../config";
-import {createPublicClient, http} from "viem";
+import {NEXT_PUBLIC_URL} from "../../config";
 import {base} from "viem/chains";
-import {abi} from "../../abi/surfyCard";
 import React from "react";
 import {createImagesWorker} from "frames.js/middleware/images-worker/next";
 import {getTokenUrl} from "frames.js";
-
-const isUserHasNft = async (addresses: string[] | undefined) => {
-    if (addresses == null) {
-        return null
-    }
-
-    const publicClient = createPublicClient({
-        chain: base,
-        transport: http(),
-    })
-
-    for (const index in addresses) {
-        console.log(addresses[index])
-        const readResult = await publicClient.readContract({
-            abi,
-            functionName: 'balanceOf',
-            // @ts-ignore
-            address: process.env.NEXT_PUBLIC_SURFY_NFT_ADDRESS ?? '0x313714Fc7BfFFcBc5d1F60a6D7E3A3cCBEf5cc36',
-            args: [addresses[index], 1],
-        })
-
-        if (readResult !== '0x0000000000000000000000000000000000000001') {
-            return addresses[index]
-        }
-    }
-
-    return null
-}
+import {isUserHasNft} from "../utils/nft";
 
 const handleRequest = frames(async (ctx) => {
     const hasNft = await isUserHasNft(ctx.message?.requesterVerifiedAddresses)
