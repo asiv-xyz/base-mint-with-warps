@@ -11,7 +11,7 @@ const handleRequest = frames(async (ctx) => {
             },
             buttons: [
                 <Button action="post" target={{ pathname: "/mint" }}>
-                    Mint
+                    Your card
                 </Button>,
                 <Button action="link" target="https://asiv-web.vercel.app">
                     About SURFY
