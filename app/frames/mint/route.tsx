@@ -42,7 +42,7 @@ const handleRequest = frames(async (ctx) => {
                     <img style={{ width: '1080px', height: '1080px', zIndex: 30 }} src={cardAsset} alt={cardAsset} />
                     <div style={{ top: '554', left: '173', position: "absolute", display: "flex", flexDirection: "column", zIndex: 50 }}>
                         <img style={{ display: "flex", width: '100px', height: '100px', borderRadius: "15px" }} src={ctx.message?.requesterUserData?.profileImage} />
-                        <p style={{ color: textColor, marginTop: "10px" }}>{ctx.message?.requesterUserData?.displayName}</p>
+                        <p style={{ color: textColor, marginTop: "10px", fontSize: "28px" }}>{ctx.message?.requesterUserData?.displayName}</p>
                     </div>
                 </div>
             ),
@@ -82,5 +82,5 @@ const handleRequest = frames(async (ctx) => {
 
 const imagesRoute = createImagesWorker();
 
-export const GET = imagesRoute();
+export const GET = handleRequest;
 export const POST = handleRequest;
