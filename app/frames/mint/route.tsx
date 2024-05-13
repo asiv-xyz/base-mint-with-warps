@@ -41,18 +41,23 @@ const handleRequest = frames(async (ctx) => {
     if (hasNft) {
         const last = parseInt(hasNft.at(5) || '0') % 5
         let cardAsset
+        let textColor
         switch (last) {
             case 0:
                 cardAsset = `${NEXT_PUBLIC_URL}/surfy_card_1.png`
+                textColor = 'white'
                 break
             case 1:
                 cardAsset = `${NEXT_PUBLIC_URL}/surfy_card_2.png`
+                textColor = 'white'
                 break
             case 2:
                 cardAsset = `${NEXT_PUBLIC_URL}/surfy_card_3.png`
+                textColor = 'white'
                 break
             case 3:
                 cardAsset = `${NEXT_PUBLIC_URL}/surfy_card_4.png`
+                textColor = 'black'
                 break
             default:
                 cardAsset = `${NEXT_PUBLIC_URL}/surfy_card_1.png`
@@ -61,13 +66,21 @@ const handleRequest = frames(async (ctx) => {
         console.log('image', ctx.message?.requesterUserData?.profileImage)
         return {
             image: (
-                <div style={{ display: "flex" }}>
-                    <div style={{ display: "flex" }}>
-                        <img style={{ width: '1050px', height: '740px', zIndex: 30 }} src={cardAsset} alt={cardAsset} />
-                        <img style={{ display: "flex",  position: "absolute", top: '382', left: '160', width: '102px', height: '102px', zIndex: 50, borderRadius: "10px" }} src={ctx.message?.requesterUserData?.profileImage} />
+                <div style={{ display: "flex", width: '1080px', height: '1080px' }}>
+                    <div style={{ display: "flex", width: '1080px', height: '1080px' }}>
+                        <img style={{ width: '1080px', height: '1080px', zIndex: 30 }} src={cardAsset} alt={cardAsset} />
+                        <div style={{ top: '554', left: '173', position: "absolute", display: "flex", flexDirection: "column", zIndex: 50 }}>
+                            <img style={{ display: "flex", width: '100px', height: '100px', borderRadius: "15px" }} src={ctx.message?.requesterUserData?.profileImage} />
+                            <p style={{ color: textColor, marginTop: "10px" }}>{ctx.message?.requesterUserData?.displayName}</p>
+                        </div>
                     </div>
                 </div>
             ),
+            imageOptions: {
+                width: 1080,
+                height: 1080,
+                aspectRatio: "1:1"
+            },
             buttons: [
                 <Button action="mint" target={`eip155:8453:${ZORA_COLLECTION_ADDRESS}:${ZORA_TOKEN_ID}`}>
                     Mint
@@ -80,12 +93,12 @@ const handleRequest = frames(async (ctx) => {
     }
 
         return {
-            image: (
-                <div style={{ display: "flex", flexDirection: "column"}}>
-                    <span>username: {ctx.message?.requesterUserData?.username}</span>
-                    <span>You can mint SURFY NFT!</span>
-                </div>
-            ),
+            image: `${NEXT_PUBLIC_URL}/mint_your_surfy.png`,
+            imageOptions: {
+                width: 1080,
+                height: 1080,
+                aspectRatio: "1:1"
+            },
             buttons: [
                 <Button action="mint" target={`eip155:8453:${ZORA_COLLECTION_ADDRESS}:${ZORA_TOKEN_ID}`}>
                     Mint
