@@ -34,8 +34,6 @@ const handleRequest = frames(async (ctx) => {
             default:
                 cardAsset = `${NEXT_PUBLIC_URL}/surfy_card_1.png`
         }
-        console.log('cardAsset', cardAsset)
-        console.log('image', ctx.message?.requesterUserData?.profileImage)
         return {
             image: (
                 <div style={{ display: "flex", width: '1080px', height: '1080px', padding: '0px', margin: '0px' }}>

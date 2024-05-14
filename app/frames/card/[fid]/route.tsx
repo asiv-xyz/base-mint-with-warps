@@ -8,19 +8,17 @@ import {Button} from "frames.js/next";
 
 const handleRequest = frames(async (ctx) => {
     console.log('card: handleRequest')
+    const client = new NeynarAPIClient('C0BA4DAC-4197-4CCF-922F-8142E550E356');
     const fids: string[] = ctx.url.pathname.split('/')
     if (fids.length == 0) {
         return {
-            image: (<>Something was wrong...</>),
+            image: (<>User doesn't have fid.</>),
             imageOptions: {
                 width: 1080, height: 1080, aspectRatio: "1:1"
             }
         }
     }
-    console.log('card: fid', fids[fids.length - 1])
     const fid = fids[fids.length - 1]
-    const client = new NeynarAPIClient('C0BA4DAC-4197-4CCF-922F-8142E550E356');
-    console.log('card: fid', fid)
     const addresses = await client.fetchBulkUsers([parseInt(fid)])
     const ethAddresses = addresses.users[0].verified_addresses.eth_addresses
     const name = addresses.users[0].display_name
@@ -28,7 +26,7 @@ const handleRequest = frames(async (ctx) => {
     const hasNft = await isUserHasNft(ethAddresses)
     if (hasNft == null) {
         return {
-            image: (<>Something was wrong...</>),
+            image: (<>User doesn't have SURFY card NFT.</>),
             imageOptions: {
                 width: 1080, height: 1080, aspectRatio: "1:1"
             }
