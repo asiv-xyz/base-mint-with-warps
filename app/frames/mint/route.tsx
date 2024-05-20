@@ -74,7 +74,7 @@ const handleRequest = frames(async (ctx) => {
             <Button action="mint" target={getTokenUrl({ address: "0x313714Fc7BfFFcBc5d1F60a6D7E3A3cCBEf5cc36", chain: base, tokenId: "1"})} >
                 Mint
             </Button>,
-            <Button action="link" target="https://https://www.surfy.network">
+            <Button action="link" target="https://www.surfy.network">
                 About SURFY
             </Button>,
         ],
