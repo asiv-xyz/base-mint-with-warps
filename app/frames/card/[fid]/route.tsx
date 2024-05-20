@@ -3,8 +3,9 @@ import React from "react";
 import {isUserHasNft} from "../../utils/nft";
 import {NeynarAPIClient} from "@neynar/nodejs-sdk";
 import {NEXT_PUBLIC_URL} from "../../../config";
-import {createImagesWorker} from "frames.js/middleware/images-worker/next";
 import {Button} from "frames.js/next";
+import {getTokenUrl} from "frames.js";
+import {base} from "viem/chains";
 
 const handleRequest = frames(async (ctx) => {
     console.log('card: handleRequest')
@@ -80,7 +81,7 @@ const handleRequest = frames(async (ctx) => {
             width: 1080, height: 1080, aspectRatio: "1:1"
         },
         buttons: [
-            <Button action="post" target={`/mint`} >
+            <Button action="mint" target={getTokenUrl({ address: "0x313714Fc7BfFFcBc5d1F60a6D7E3A3cCBEf5cc36", chain: base, tokenId: "1"})} >
                 Mint
             </Button>,
             <Button action="link" target={`https://warpcast.com/~/compose?embeds[]=${NEXT_PUBLIC_URL}/frames/card/${fid}&text=Pay crypto with /surfy! I minted my onchain card!`} >
