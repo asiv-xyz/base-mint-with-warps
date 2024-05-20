@@ -80,7 +80,7 @@ const handleRequest = frames(async (ctx) => {
             width: 1080, height: 1080, aspectRatio: "1:1"
         },
         buttons: [
-            <Button action="link" target={`https://warpcast.com/~/compose?embeds[]=${NEXT_PUBLIC_URL}/frames/card/${fid}&text=Minted my /surfy`} >
+            <Button action="link" target={`https://warpcast.com/~/compose?embeds[]=${NEXT_PUBLIC_URL}/frames/card/${fid}&text=Pay crypto with /surfy! I minted my onchain card!`} >
                 Share
             </Button>,
             <Button action="link" target="https://www.surfy.network">
