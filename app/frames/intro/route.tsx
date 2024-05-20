@@ -13,7 +13,7 @@ const handleRequest = frames(async (ctx) => {
             <Button action="post" target={`/mint`} >
                 Your card
             </Button>,
-            <Button action="link" target="https://asiv-web.vercel.app">
+            <Button action="link" target="https://www.surfy.network">
                 About SURFY
             </Button>,
         ],

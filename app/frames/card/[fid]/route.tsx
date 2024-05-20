@@ -83,7 +83,7 @@ const handleRequest = frames(async (ctx) => {
             <Button action="link" target={`https://warpcast.com/~/compose?embeds[]=${NEXT_PUBLIC_URL}/frames/card/${fid}&text=Minted my /surfy`} >
                 Share
             </Button>,
-            <Button action="link" target="https://asiv-web.vercel.app">
+            <Button action="link" target="https://www.surfy.network">
                 About SURFY
             </Button>,
         ],
