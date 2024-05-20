@@ -3,7 +3,6 @@ import { frames } from "../frames";
 import {NEXT_PUBLIC_URL} from "../../config";
 import {base} from "viem/chains";
 import React from "react";
-import {createImagesWorker} from "frames.js/middleware/images-worker/next";
 import {getTokenUrl} from "frames.js";
 import {isUserHasNft} from "../utils/nft";
 
