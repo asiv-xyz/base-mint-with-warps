@@ -67,7 +67,7 @@ const handleRequest = frames(async (ctx) => {
             aspectRatio: "1:1"
         },
         buttons: [
-            <Button action="mint" target={getTokenUrl({ address: "0x313714Fc7BfFFcBc5d1F60a6D7E3A3cCBEf5cc36", chain: base, tokenId: "1"})} >
+            <Button action="mint" target={getTokenUrl({ address: "0xa46006abad84f1110e7faccbdaa59ea25040b743", chain: base, tokenId: "1"})} >
                 Mint
             </Button>,
             <Button action="link" target="https://www.surfy.network">

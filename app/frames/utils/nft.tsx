@@ -18,7 +18,7 @@ export const isUserHasNft = async (addresses: string[] | undefined) => {
             abi,
             functionName: 'balanceOf',
             // @ts-ignore
-            address: process.env.NEXT_PUBLIC_SURFY_NFT_ADDRESS ?? '0x313714Fc7BfFFcBc5d1F60a6D7E3A3cCBEf5cc36',
+            address: process.env.NEXT_PUBLIC_SURFY_NFT_ADDRESS ?? '0xa46006abad84f1110e7faccbdaa59ea25040b743',
             args: [addresses[index], 1],
         })
 
